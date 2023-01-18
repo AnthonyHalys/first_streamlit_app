@@ -40,6 +40,8 @@ fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 # Affiche la table normalisée dans une grille
 streamlit.dataframe(fruityvice_normalized)
 
+# don't run anything past here while we troubleshoot
+streamlit.stop()
 
 import snowflake.connector
 
@@ -70,3 +72,7 @@ streamlit.dataframe(my_data_rows)
 #Permettre l'ajout d'un fruit à la liste ; réponse kiwi par défaut
 add_fruit = streamlit.text_input('What fruit would you to add')
 streamlit.write('Thanks for adding ', add_fruit)
+
+# ajout dans la base
+my_cur.execute("insert into fruit_load_list values ('from streamlit')")
+
