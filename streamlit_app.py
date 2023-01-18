@@ -32,7 +32,7 @@ def get_fruityvice_data(this_fruit_choice):
       # Normalisation de la reponse JSON de FuityVice 
       fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
       # renvoie les données normalisées
-     return fruityvice_normalized
+      return fruityvice_normalized;
 
 # section pour afficher FuityVice API Response
 streamlit.header("Fruityvice Fruit Advice!")
