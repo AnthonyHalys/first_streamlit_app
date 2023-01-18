@@ -28,22 +28,21 @@ streamlit.dataframe(fruits_to_show)
 
 # section pour afficher FuityVice API Response
 streamlit.header("Fruityvice Fruit Advice!")
-
 #ajout du choix de fruit ; réponse kiwi par défaut
-fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
-streamlit.write('The user entered ', fruit_choice)
+try:
+  fruit_choice = streamlit.text_input('What fruit would you like information about?')
+  if not fruit_choice:
+      streamlit.error("Please sekect a fruit to get information.")
+  else:
+      fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+      # Normalisation de la reponse JSON de FuityVice 
+      fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+      # Affiche la table normalisée dans une grille
+      streamlit.dataframe(fruityvice_normalized)
 
-#import requests
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-# streamlit.text(fruityvice_response)
-
-
-
-# Normalisation de la reponse JSON de FuityVice 
-fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-# Affiche la table normalisée dans une grille
-streamlit.dataframe(fruityvice_normalized)
-
+except URLError as e:
+   streamlit.error()
+      
 # don't run anything past here while we troubleshoot
 streamlit.stop()
 
