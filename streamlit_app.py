@@ -26,6 +26,14 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 # Display the table on the page.
 streamlit.dataframe(fruits_to_show)
 
+# fonction get_fruityvice_data
+def get_fruityvice_data(this_fruit_choice)
+      fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice)
+      # Normalisation de la reponse JSON de FuityVice 
+      fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+      # renvoie les données normalisées
+     return fruityvice_normalized
+
 # section pour afficher FuityVice API Response
 streamlit.header("Fruityvice Fruit Advice!")
 #ajout du choix de fruit ; réponse kiwi par défaut
@@ -34,11 +42,10 @@ try:
   if not fruit_choice:
       streamlit.error("Please sekect a fruit to get information.")
   else:
-      fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
       # Normalisation de la reponse JSON de FuityVice 
-      fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+      retour_de_fonction=get_fruityvice_data(fruit_choice)
       # Affiche la table normalisée dans une grille
-      streamlit.dataframe(fruityvice_normalized)
+      streamlit.dataframe(retour_de_fonction)
 
 except URLError as e:
    streamlit.error()
